@@ -9,11 +9,29 @@ using namespace std::chrono;
 class Searching {
 public:
     static long long int SequentialSearch(const std::list<long long int>& list, long long int target) {
-        // fras should implement linear search here
+        int index = 0;
+        for (const long long it : list) {
+            if (it == target) {
+                return index;
+            }
+            index++;
+        }
         return -1; // Target not found
     }
     static long long int BinarySearch(const std::list<long long int>& list, long long int target) {
-        // fras should implement binary search here
+        long long int l =0, r = list.size();
+        while (l <= r) {
+            const long long int mid = l + (r - l) / 2;
+            auto it = list.begin();
+            advance(it, mid);
+            if (*it == target) {
+                return mid;
+            }else if (*it > target) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
         return -1; // Target not found
     }
     static long long int SequentialRecursiveSearch(const std::list<long long int>& list, long long int target) {

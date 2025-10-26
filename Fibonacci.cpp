@@ -8,8 +8,10 @@ using namespace std::chrono;
 class Fibonacci {
 public:
     static unsigned long long int Recursive(unsigned long long int position) {
-        // fras should implement dynamic programming method here
-        return 0; // Placeholder
+        if (position == 0 || position == 1) {
+            return 1;
+        }
+        return Recursive(position - 1) + Recursive(position - 2);
     }
     static unsigned long long int MatrixMultiplication(unsigned long long int position) {
         // I should implement dynamic programming method here (maro)
