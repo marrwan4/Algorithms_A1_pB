@@ -1,0 +1,90 @@
+# .gitignore for C/C++ project
+# Ignore editor and IDE directories
+.vscode/
+.idea/
+
+# Build directories
+build/
+bin/
+out/
+dist/
+cmake-build-*/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+Makefile
+
+# Compiled object files and libraries
+*.o
+*.ko
+*.obj
+*.lo
+*.la
+*.lai
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Debug, symbol and index files
+*.dSYM/
+*.pdb
+*.ilk
+*.idb
+*.sdf
+*.su
+*.map
+
+# Temporary and backup files
+*~
+*.swp
+*.swo
+*.tmp
+*.log
+
+# IDE/project files
+*.user
+*.userosscache
+*.vcxproj.user
+.vs/
+
+# Generated tags and indexes
+tags
+TAGS
+
+# Dependency dirs
+.deps/
+
+# Coverage
+coverage/
+lcov.info
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Archive and packages
+*.zip
+*.tar.gz
+*.7z
+
+# Node (if any subprojects)
+node_modules/
+
+# Keep the repository-level gitignore itself
+!.gitignore
