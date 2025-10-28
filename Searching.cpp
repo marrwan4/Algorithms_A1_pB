@@ -3,12 +3,12 @@
 #include <chrono>
 #include <functional>
 
-using namespace std;
 using namespace std::chrono;
+using namespace std;
 
 class Searching {
 public:
-    static long long int SequentialSearch(const std::list<long long int>& list, long long int target) {
+    static long long int SequentialSearch(const list<long long int>& list, long long int target) {
         int index = 0;
         for (const long long it : list) {
             if (it == target) {
@@ -16,12 +16,12 @@ public:
             }
             index++;
         }
-        return -1; // Target not found
+        return -1;
     }
-    static long long int BinarySearch(const std::list<long long int>& list, long long int target) {
+    static long long int BinarySearch(const list<long long int>& list, long long int target) {
         long long int l =0, r = list.size();
         while (l <= r) {
-            const long long int mid = l + (r - l) / 2;
+            long long int mid = l + (r - l) / 2;
             auto it = list.begin();
             advance(it, mid);
             if (*it == target) {
@@ -32,22 +32,39 @@ public:
                 l = mid + 1;
             }
         }
-        return -1; // Target not found
+        return -1;
     }
-    static long long int SequentialRecursiveSearch(const std::list<long long int>& list, long long int target) {
-        // I should implement sequential recursive search here
-        return -1; // Target not found
+    static long long int SequentialRecursiveSearch(const list<long long int>& list, long long int target) {
+        if (list.empty()) {
+            return -1;
+        } else if (target == list.front()) {
+            return 0;
+        } else {
+            std::list<long long int> sublist(list);
+            sublist.pop_front();
+            long long int result = SequentialRecursiveSearch(sublist, target);
+            if (result == -1) {
+                return -1;
+            } else {
+                return result + 1;
+            }
+        }
     }
-    static long long int BinaryRecursiveSearch(const std::list<long long int>& list, long long int target) {
+    static long long int BinaryRecursiveSearch(const list<long long int>& list, long long int target) {
         // doma should implement binary recursive search here
         return -1; // Target not found
     }
-    void static highResolutionClock(function<long long int(const std::list<long long int>&, long long int)> func, const std::list<long long int>& list, long long int target) {
+    void static highResolutionClock(function<long long int(const list<long long int>&, long long int)> func, const list<long long int>& list, long long int target) {
         auto start = high_resolution_clock::now();
         long long int result = func(list, target);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        cout << "Result: " << result << ", Time taken by function: " << duration.count() << " nanoseconds" << " ";
+        if (result != -1) {
+            cout << "Target found at index: " << result << ". ";
+        } else {
+            cout << "Target not found. ";
+        }
+        cout << "Time taken by function: " << duration.count() << " nanoseconds" << endl;
     }
 };
 
@@ -58,9 +75,29 @@ int main() {
         cin >> size;
         if (size < 0) break;
         list<long long int> myList;
-        for (long long int i = 0; i < size; ++i) {
-            myList.push_back(i * 2); // Even numbers
+
+        cout << "Choose input method:\n1) Manual\n2) Random\nEnter choice: ";
+        int choice;
+        cin >> choice;
+        if (size > 0 && choice == 1) {
+            cout << "Enter " << size << " elements (any integers):" << endl;
+            for (long long int i = 0; i < size; ++i) {
+            long long int val;
+            cin >> val;
+            myList.push_back(val);
+            }
+        } else {
+            std::srand(static_cast<unsigned>(chrono::high_resolution_clock::now().time_since_epoch().count()));
+            for (long long int i = 0; i < size; ++i) {
+                long long int val = std::rand() % (static_cast<int>(size * 10 + 1));
+                myList.push_back(val);
+                cout << val << " ";
+            }
+            cout << endl;
         }
+        myList.sort();
+        cout << "list sorted." << endl;
+
         cout << "Enter the target number to search for: ";
         long long int target;
         cin >> target;
