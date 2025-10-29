@@ -42,13 +42,41 @@ private:
             heapify(extreme);
         }
     }
+    T search_leaves_for_anti_extreme() {
+        if (size == 0) {
+            return T("Heap is empty!");
+        }
+        T anti_extreme = heap[size / 2];
+        for (int i = size / 2 + 1; i < size; i++) {
+            if (type == MAX_HEAP) {
+                if (heap[i] < anti_extreme) {
+                    anti_extreme = heap[i];
+                }
+            } else {
+                if (heap[i] > anti_extreme) {
+                    anti_extreme = heap[i];
+                }
+            }
+        }
+        return anti_extreme;
+    }
+    T extract_extreme() {
+        if (size == 0) {
+            return T("Heap is empty!");
+        }
+        T extreme = heap[0];
+        heap[0] = heap[size - 1];
+        size--;
+        heapify(0);
+        return extreme;
+    }
 public:
     Heap(int arraySize) : size(0) {
         heap = new T[arraySize];
     }
     T peek() const {
         if (size == 0) {
-            return "Heap is empty!";
+            return T("Heap is empty!");
         }
         return heap[0];
     }
@@ -62,6 +90,9 @@ public:
         type = t;
     }
     void insert(const T& item) {
+        int index = size;
+        heap[index] = item;
+        size++;
         if (size == 0) {
             heap[0] = item;
             size++;
@@ -95,7 +126,32 @@ public:
         }
         cout << endl;
     }
-    // todo extract max/min , switch heap type
+    void setHeapType(HeapType t) {
+        type = t;
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            heapify(i);
+        }
+    }
+    T extract_max() {
+        if (size == 0) {
+            return T("Heap is empty!");
+        }
+        if (type != MAX_HEAP) {
+            T anti_extreme = search_leaves_for_anti_extreme();
+            return anti_extreme;
+        }
+        return extract_extreme();
+    }
+    T extract_min() {
+        if (size == 0) {
+            return T("Heap is empty!");
+        }
+        if (type != MIN_HEAP) {
+            T anti_extreme = search_leaves_for_anti_extreme();
+            return anti_extreme;
+        }
+        return extract_extreme();
+    }
     static T* heapSort(T arr[], int n) {
         // doma should implement heap sort here
     }
@@ -105,5 +161,4 @@ public:
 };
 
 int main() {
-    return 0;
 }
