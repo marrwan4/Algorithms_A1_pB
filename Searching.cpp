@@ -19,7 +19,7 @@ public:
         return -1;
     }
     static long long int BinarySearch(const list<long long int>& list, long long int target) {
-        long long int l =0, r = list.size();
+        long long int l = 0, r = static_cast<long long int>(list.size()) - 1;
         while (l <= r) {
             long long int mid = l + (r - l) / 2;
             auto it = list.begin();
@@ -50,9 +50,24 @@ public:
             }
         }
     }
+    static long long int BinaryRecursiveSearchHelper(const list<long long int>& list, long long int target, long long int low, long long int high) {
+        if (low > high) {
+            return -1;
+        }
+        long long int mid = low + (high - low) / 2;
+        auto it = list.begin();
+        advance(it, mid);
+        if (*it == target) {
+            return mid;
+        } else if (*it > target) {
+            return BinaryRecursiveSearchHelper(list, target, low, mid - 1);
+        } else {
+            return BinaryRecursiveSearchHelper(list, target, mid + 1, high);
+        }
+    }
     static long long int BinaryRecursiveSearch(const list<long long int>& list, long long int target) {
-        // doma should implement binary recursive search here
-        return -1; // Target not found
+        if (list.empty()) return -1;
+        return BinaryRecursiveSearchHelper(list, target, 0, static_cast<long long int>(list.size()) - 1);
     }
     void static highResolutionClock(function<long long int(const list<long long int>&, long long int)> func, const list<long long int>& list, long long int target) {
         auto start = high_resolution_clock::now();
@@ -68,6 +83,7 @@ public:
     }
 };
 
+#ifndef UNIT_TEST
 int main() {
     while (true) {
         cout << "Enter the size of the list (or a negative number to exit): ";
@@ -110,3 +126,4 @@ int main() {
     }
     return 0;
 }
+#endif

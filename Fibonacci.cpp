@@ -10,9 +10,8 @@ using namespace std::chrono;
 class Fibonacci {
 public:
     static long long int Recursive(long long int position) {
-        if (position == 0 || position == 1) {
-            return 1;
-        }
+        if (position == 0) return 0;
+        if (position == 1) return 1;
         return Recursive(position - 1) + Recursive(position - 2);
     }
     struct Matrix {
@@ -43,8 +42,16 @@ public:
         return result.a;
     }
     static long long int DynamicProgramming(long long int position) {
-        // doma should implement dynamic programming method here
-        return 0; // Placeholder
+        if (position == 0) return 0;
+        if (position == 1) return 1;
+        long long prev = 0;
+        long long curr = 1;
+        for (long long i = 2; i <= position; ++i) {
+            long long nextVal = prev + curr;
+            prev = curr;
+            curr = nextVal;
+        }
+        return curr;
     }
     void static highResolutionClock(function<long long(long long)> func, long long int position) {
         auto start = high_resolution_clock::now();
@@ -55,6 +62,7 @@ public:
     }
 };
 
+#ifndef UNIT_TEST
 int main() {
     while (true) {
         cout << "Enter the position of the Fibonacci number you want to calculate (or a negative number to exit): ";
@@ -68,3 +76,4 @@ int main() {
     }
     return 0;
 }
+#endif
