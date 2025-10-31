@@ -76,6 +76,9 @@ public:
     Heap(int arraySize) : size(0) {
         heap = new T[arraySize];
     }
+    Heap() {
+        heap = new T[];
+    }
     T peek() const {
         if (size == 0) {
             throw runtime_error("Heap is empty!");
