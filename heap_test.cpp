@@ -8,7 +8,7 @@ int main() {
     {
         int arr[] = {5, 1, 9, 3, 7, 2, 8, 4, 6, 0};
         int expected[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        Heap<int>::heapSort(arr, 10);
+        heapSort(arr, 10);
         for (int i = 0; i < 10; ++i) {
             assert(arr[i] == expected[i]);
         }

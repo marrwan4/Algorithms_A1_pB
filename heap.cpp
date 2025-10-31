@@ -151,39 +151,6 @@ public:
         }
         return extract_extreme();
     }
-    static T* heapSort(T arr[], int n) {
-        if (n <= 1) return arr;
-        auto siftDown = [&](int start, int end) {
-            int root = start;
-            while (true) {
-                int child = 2 * root + 1; // left child
-                if (child > end) break;
-                if (child + 1 <= end && arr[child] < arr[child + 1]) {
-                    child++;
-                }
-                if (arr[root] < arr[child]) {
-                    T tmp = arr[root];
-                    arr[root] = arr[child];
-                    arr[child] = tmp;
-                    root = child;
-                } else {
-                    break;
-                }
-            }
-        };
-        // Build max-heap
-        for (int start = n / 2 - 1; start >= 0; --start) {
-            siftDown(start, n - 1);
-        }
-        // Extract elements from heap one by one
-        for (int end = n - 1; end > 0; --end) {
-            T tmp = arr[end];
-            arr[end] = arr[0];
-            arr[0] = tmp;
-            siftDown(0, end - 1);
-        }
-        return arr;
-    }
     ~Heap() {
         delete[] heap;
     }
@@ -219,6 +186,19 @@ public:
     bool isEmpty() { return heap.is_empty(); }
 };
 
+template <typename T>
+static T* heapSort(T arr[], int n) {
+    Heap<T> heap(n);
+    heap.setType(MAX_HEAP);
+    for (int i = 0; i < n; ++i) {
+        heap.insert(arr[i]);
+    }
+    for (int i = n - 1; i >= 0; --i) {
+        arr[i] = heap.extract_max();
+    }
+    return arr;
+}
+
 #ifndef UNIT_TEST
 int main() {
     while (true) {
@@ -237,7 +217,7 @@ int main() {
             cout << "Enter " << n << " integers:\n";
             for (int i = 0; i < n; ++i) cin >> v[i];
             // Use in-place heap sort
-            Heap<int>::heapSort(v.data(), n);
+            heapSort(v.data(), n);
             cout << "Sorted: ";
             for (int i = 0; i < n; ++i) {
                 cout << v[i] << (i + 1 == n ? '\n' : ' ');
